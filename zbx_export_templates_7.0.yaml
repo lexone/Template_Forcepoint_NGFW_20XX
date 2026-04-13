@@ -1,0 +1,241 @@
+zabbix_export:
+  version: '7.0'
+  template_groups:
+    - uuid: c5381dc540504dbba10e2d300554e4cd
+      name: Firewall
+  templates:
+    - uuid: d1efe20de6f540c0b948e09d0d97abcf
+      template: 'Template Forcepoint 20XX'
+      name: 'Template Forcepoint 20XX'
+      description: 'Versão Criada por Everton S.'
+      templates:
+        - name: 'ICMP Ping'
+      groups:
+        - name: Firewall
+      items:
+        - uuid: d887ea3e72464e159de73bfbbac6f72b
+          name: 'Numero de pacotes aceitos'
+          type: SNMP_AGENT
+          snmp_oid: 'FORCEPOINT-NGFW-ENGINE-MIB::fwAccepted.0'
+          key: fwAccepted
+          delay: '30'
+          history: 14d
+          tags:
+            - tag: Application
+              value: Firewall
+        - uuid: 1f2209a1a0554c55b6c09d2cb68daadc
+          name: 'Numero de conexões ativas'
+          type: SNMP_AGENT
+          snmp_oid: 'FORCEPOINT-NGFW-ENGINE-MIB::fwConnNumber.0'
+          key: fwConnNumber.0
+          delay: '30'
+          history: 14d
+          tags:
+            - tag: Application
+              value: Firewall
+          triggers:
+            - uuid: a680cdf354e847828426fb519a70b281
+              expression: 'last(/Template Forcepoint 20XX/fwConnNumber.0)>12000'
+              name: 'Alto numero de Conexões no Firewall Stonegate (+12k)'
+              priority: WARNING
+        - uuid: df1febe22fc24350b2e1663ab9fade7b
+          name: 'Numero de pacotes descartados'
+          type: SNMP_AGENT
+          snmp_oid: 'FORCEPOINT-NGFW-ENGINE-MIB::fwDropped.0'
+          key: fwDropped
+          delay: '30'
+          history: 14d
+          tags:
+            - tag: Application
+              value: Firewall
+        - uuid: e00330a41be64de3817bb9de7699d9b7
+          name: 'Memória Física Total'
+          type: SNMP_AGENT
+          snmp_oid: 'FORCEPOINT-NGFW-ENGINE-MIB::fwMemBytesTotal.0'
+          key: fwMemBytesTotal
+          delay: '30'
+          history: 14d
+          units: B
+          tags:
+            - tag: Application
+              value: Firewall
+        - uuid: 4f96d0a8fdd243ada9d73f62872bd514
+          name: 'Memória Física Utilizada'
+          type: SNMP_AGENT
+          snmp_oid: 'FORCEPOINT-NGFW-ENGINE-MIB::fwMemBytesUsed.0'
+          key: fwMemBytesUsed
+          delay: '30'
+          history: 14d
+          units: B
+          tags:
+            - tag: Application
+              value: Firewall
+        - uuid: e8dc209c8a8c4470a41248f8c6eb0c0a
+          name: 'Numero de pacotes rejeitados'
+          type: SNMP_AGENT
+          snmp_oid: 'FORCEPOINT-NGFW-ENGINE-MIB::fwRejected.0'
+          key: fwRejected.0
+          delay: '30'
+          history: 14d
+          tags:
+            - tag: Application
+              value: Firewall
+        - uuid: c7c811536a4a405fb9be32d7c2737276
+          name: 'Nome da politica de Segurança atua'
+          type: SNMP_AGENT
+          snmp_oid: 'FORCEPOINT-NGFW-ENGINE-MIB::fwSecurityPolicy.0'
+          key: fwSecurityPolicy.0
+          delay: '300'
+          history: 14d
+          value_type: TEXT
+          tags:
+            - tag: Application
+              value: Firewall
+        - uuid: c8ac5200e0fc41db8b8a7504b395967b
+          name: 'Versão do Software'
+          type: SNMP_AGENT
+          snmp_oid: 'FORCEPOINT-NGFW-ENGINE-MIB::fwSoftwareVersion.0'
+          key: fwSoftwareVersion
+          delay: '3600'
+          history: 14d
+          value_type: TEXT
+          tags:
+            - tag: Application
+              value: Software
+        - uuid: 238adda5c178444ca698be481d283dc1
+          name: 'Memória Swap Total'
+          type: SNMP_AGENT
+          snmp_oid: 'FORCEPOINT-NGFW-ENGINE-MIB::fwSwapBytesTotal.0'
+          key: fwSwapBytesTotal
+          delay: '30'
+          history: 14d
+          units: B
+          tags:
+            - tag: Application
+              value: Firewall
+        - uuid: edefad69f1ad4086b23c996af4e2c918
+          name: 'Memória Swap Utilizada'
+          type: SNMP_AGENT
+          snmp_oid: 'FORCEPOINT-NGFW-ENGINE-MIB::fwSwapBytesUsed.0'
+          key: fwSwapBytesUsed
+          delay: '30'
+          history: 14d
+          units: B
+          tags:
+            - tag: Application
+              value: Firewall
+        - uuid: 334c6143244e47a587ee0ded0e9dd30c
+          name: ClusterID
+          type: SNMP_AGENT
+          snmp_oid: 'FORCEPOINT-NGFW-ENGINE-MIB::nodeClusterId.0'
+          key: nodeClusterId
+          delay: '3600'
+          history: 14d
+          tags:
+            - tag: Application
+              value: Firewall
+        - uuid: d858ff18901b4b71a53986d01c30632e
+          name: 'Carga da CPU'
+          type: SNMP_AGENT
+          snmp_oid: 'FORCEPOINT-NGFW-ENGINE-MIB::nodeCPULoad.0'
+          key: nodeCPULoad
+          delay: '30'
+          history: 14d
+          units: '%'
+          tags:
+            - tag: Application
+              value: Firewall
+          triggers:
+            - uuid: 664bb8ffefe24e3ab7240baff081c5ac
+              expression: 'last(/Template Forcepoint 20XX/nodeCPULoad)>90'
+              name: 'Uso de CPU do Firewall acima de 90%'
+              priority: HIGH
+        - uuid: b2845f1649b843d1baa40100a3453562
+          name: 'Status Operacional do Nó'
+          type: SNMP_AGENT
+          snmp_oid: 'FORCEPOINT-NGFW-ENGINE-MIB::nodeOperState.0'
+          key: nodeOperState.0
+          delay: '30'
+          history: 14d
+          valuemap:
+            name: 'Status Operacional (StoneGate)'
+          tags:
+            - tag: Application
+              value: Firewall
+      valuemaps:
+        - uuid: f64d3f2eda544ddd8ea8f1379a6ea25b
+          name: 'Status Operacional (StoneGate)'
+          mappings:
+            - value: '0'
+              newvalue: unknown
+            - value: '1'
+              newvalue: online
+            - value: '2'
+              newvalue: goingOnline
+            - value: '3'
+              newvalue: lockedOnline
+            - value: '4'
+              newvalue: goingLockedOnline
+            - value: '5'
+              newvalue: offline
+            - value: '6'
+              newvalue: goingOffline
+            - value: '7'
+              newvalue: lockedOffline
+            - value: '8'
+              newvalue: goingLockedOffline
+            - value: '9'
+              newvalue: standby
+            - value: '10'
+              newvalue: goingStandby
+  graphs:
+    - uuid: a8c9de2ce5bb4f949945e18c6c54bbbd
+      name: 'Carga da CPU'
+      graph_items:
+        - drawtype: BOLD_LINE
+          color: 1A7C11
+          item:
+            host: 'Template Forcepoint 20XX'
+            key: nodeCPULoad
+    - uuid: 92bb5587d7dc40fda5363f951fce0b9d
+      name: 'Memória Fisica'
+      graph_items:
+        - drawtype: BOLD_LINE
+          color: 1A7C11
+          item:
+            host: 'Template Forcepoint 20XX'
+            key: fwMemBytesTotal
+        - sortorder: '1'
+          drawtype: BOLD_LINE
+          color: F63100
+          item:
+            host: 'Template Forcepoint 20XX'
+            key: fwMemBytesUsed
+    - uuid: da683ae0d7484e5fa63346a1b19640d4
+      name: 'Numero de conexões ativas'
+      graph_items:
+        - drawtype: FILLED_REGION
+          color: 1A7C11
+          item:
+            host: 'Template Forcepoint 20XX'
+            key: fwConnNumber.0
+    - uuid: 095b63ca9d9b4e72868bbfb40dd2802a
+      name: 'Pacotes trafegados'
+      graph_items:
+        - drawtype: BOLD_LINE
+          color: 1A7C11
+          item:
+            host: 'Template Forcepoint 20XX'
+            key: fwDropped
+        - sortorder: '1'
+          drawtype: BOLD_LINE
+          color: F63100
+          item:
+            host: 'Template Forcepoint 20XX'
+            key: fwAccepted
+        - sortorder: '2'
+          drawtype: BOLD_LINE
+          color: 2774A4
+          item:
+            host: 'Template Forcepoint 20XX'
+            key: fwRejected.0
